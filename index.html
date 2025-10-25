@@ -22,6 +22,32 @@
 <meta name="fc:frame:button:1:target" content="https://farcaster-mini-app-zeta.vercel.app" />   
   </head>
   <body>
+     <script type="module">
+  // Minimalny Mini App: pokaż treść i powiedz klientowi, że jesteśmy gotowi
+  const root = document.createElement('div');
+  root.innerHTML = `
+    <div style="font-family: system-ui, sans-serif; padding: 20px; line-height:1.4">
+      <h1 style="margin:0 0 8px">Hello Farcaster 👋</h1>
+      <p style="margin:0 0 16px">To jest najprostszy Mini App. Załadował się poprawnie.</p>
+      <button id="ping" style="padding:10px 14px; border-radius:10px; border:1px solid #ddd; cursor:pointer">
+        Ping ⚡
+      </button>
+    </div>
+  `;
+  document.body.appendChild(root);
+
+  // Załaduj SDK z CDN i wywołaj ready()
+  const { createClient } = await import('https://cdn.farcaster.xyz/mini-apps/sdk/v1/index.js');
+  const sdk = await createClient();
+
+  // Daj znać Warpcastowi, że UI jest gotowe (usuwa splash)
+  await sdk.actions.ready();
+
+  // Przykładowa akcja do logów (zobaczysz w Developer Mode w Preview Tool)
+  document.getElementById('ping').addEventListener('click', async () => {
+    await sdk.actions.toast({ title: 'Pong!', description: 'Mini App działa ✅' });
+  });
+</script>
     <h1>Hello Farcaster 👋</h1>
     <p>Działa! Za chwilę podłączymy Frames/Mini App.</p>
   </body>
